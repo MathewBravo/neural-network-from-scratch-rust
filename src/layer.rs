@@ -1,4 +1,4 @@
-use crate::neuron::Neuron;
+use crate::{math::MathError, neuron::Neuron};
 
 #[derive(Debug, PartialEq)]
 pub enum LayerOperationalErrors {
@@ -12,12 +12,12 @@ pub struct Layer {
 }
 
 impl Layer {
-    fn weighted_sums(self) -> Vec<f32> {
+    fn weighted_sums(&self) -> Result<Vec<f32>, MathError> {
         let mut sums: Vec<f32> = Vec::with_capacity(self.neurons.len());
-        for neuron in self.neurons {
-            sums.push(neuron.weighted_sum());
+        for neuron in &self.neurons {
+            sums.push(neuron.weighted_sum()?);
         }
-        sums
+        Ok(sums)
     }
 }
 
@@ -80,7 +80,7 @@ mod tests {
             neurons: vec![test_nuer1, test_nuer2, test_nuer3],
         };
         let test_vec = vec![4.8, 1.2099999, 2.385];
-        assert_eq!(test_vec, test_layer.weighted_sums())
+        assert_eq!(test_vec, test_layer.weighted_sums().unwrap())
     }
     #[test]
     fn test_create_neurons() {
@@ -114,6 +114,11 @@ mod tests {
                 },
             ],
         };
+
+        assert_eq!(
+            vec![4.8, 1.2099999, 2.385],
+            expected_layer.weighted_sums().unwrap()
+        );
 
         assert_eq!(result, Ok(expected_layer));
     }
