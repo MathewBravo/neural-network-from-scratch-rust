@@ -1,4 +1,5 @@
-use crate::{math::MathError, neuron::Neuron};
+use crate::math::errors::MathError;
+use crate::neuron::Neuron;
 
 #[derive(Debug, PartialEq)]
 pub enum LayerOperationalErrors {

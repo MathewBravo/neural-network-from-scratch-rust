@@ -1,4 +1,4 @@
-use crate::math::{dot_prod, MathError};
+use crate::math::{dotprod::DotProduct, errors::MathError};
 
 #[derive(Debug, PartialEq)]
 pub struct Neuron {
@@ -9,8 +9,8 @@ pub struct Neuron {
 
 impl Neuron {
     pub fn weighted_sum(&self) -> Result<f32, MathError> {
-        let dp: f32 = dot_prod(&self.inputs, &self.weights)?;
-        let sum = dp + self.bias;
+        let dp: Vec<f32> = self.weights.dot_prod(&self.inputs)?;
+        let sum = dp[0] + self.bias;
         Ok(sum)
     }
 }

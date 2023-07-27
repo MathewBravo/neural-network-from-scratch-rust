@@ -1,5 +1,9 @@
 mod layer;
-mod math;
+mod math {
+    pub mod dotprod;
+    pub mod elementwise;
+    pub mod errors;
+}
 mod neuron;
 
 fn main() {
